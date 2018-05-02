@@ -18,4 +18,4 @@ for i in range( len(arr)):
         pass
     except ValueError:
         pass
-   
+   #TODO: create a function for word embedding

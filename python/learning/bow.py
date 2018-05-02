@@ -22,8 +22,11 @@ for sent, _ in data + test_data:
     for word in sent:
         if word not in word_to_ix:
             word_to_ix[word] = len(word_to_ix)
-print(word_to_ix)
+#print(word_to_ix)
 
 VOCAB_SIZE = len(word_to_ix)
 NUM_LABELS = 2
-print(VOCAB_SIZE)
+embeds=nn.Embedding(VOCAB_SIZE,3)
+lookup_tensor=torch.tensor([word_to_ix["is"]], dtype=torch.long)
+embedGive=embeds(lookup_tensor)
+print(embedGive)
