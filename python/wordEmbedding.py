@@ -50,3 +50,10 @@ for i in range( len(arr)):
 
 print('dict size of train data:'+str(len(word_to_ix)))
 print('dict size of glove data:'+str(len(word_to_iy)))
+print(str(word_to_ix.items()<=word_to_iy.items()))
+print(word_to_ix)
+print(word_to_iy.items())
+
+for key,value in word_to_iy.items():
+    if key not in word_to_ix:
+        print(key)
