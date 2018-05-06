@@ -38,9 +38,10 @@ for i in range( 10):
             else:
                 list_of_tokens.append(torch.zeros(300))
         tokens_question=list_of_tokens.copy()
+        print(len(obj["sentences"]))
         for sentence in obj["sentences"]:
-            list_of_tokens=[]
-            list_of_tokens.append(tokens_question.copy())
+            
+            list_of_tokens=tokens_question.copy()
             y=nlp(sentence)
             for i in range(40):
                 if(i<len(y)):
@@ -48,11 +49,11 @@ for i in range( 10):
                     list_of_tokens.append(temp)
                 else:
                     list_of_tokens.append(torch.zeros(300))
-                break
-            print(len(list_of_tokens))
-            sentence_to_embedding=torch.stack(list_of_tokens,dim=1)
+                
+            # print(len(list_of_tokens))
+            sentence_to_embedding=torch.stack(list_of_tokens,dim=0)
             list_of_sents.append(sentence_to_embedding)
-        x=torch.stack(list_of_sents,2)
+        x=torch.stack(list_of_sents,0)
         print(x.shape)
 
 
