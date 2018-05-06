@@ -17,13 +17,13 @@ total_sents=0
 q_missed=0
 word_to_ix={}
 
-nlp=spacy.load("en_core_web_md")
+nlp=spacy.load("en_core_web_lg")
 
 with open('.\..\datasets\selqa-evaluater\SelQA-ass-train.json') as fp:
     s=fp.read()
 arr=s.split('\n')
 print(arr[0])
-for i in range( len(arr)):
+for i in range( 10):
     try:
         obj=json.loads(arr[i])
 
@@ -55,6 +55,9 @@ for i in range( len(arr)):
         total_sents+=1
         for sentence in obj["sentences"]:
             y=nlp(sentence)
+            for token in y:
+                print(token.vector)
+                print(token.vector.shape)
             if(len(y)>max_no_of_tokens):
                 no_missed+=1
             total_sents+=1
