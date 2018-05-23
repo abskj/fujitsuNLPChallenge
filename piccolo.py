@@ -32,7 +32,8 @@ class myDataset(Dataset):
 		for i in range(len(self.arr)):
 			obj=json.loads(self.arr[i])
 			no_of_ans=len(obj["sentences"])
-			if((index+no_of_ans)>=idx) :
+			
+			if((index+no_of_ans)>idx) :
 				break
 			index+=no_of_ans
 		print(i)
@@ -59,7 +60,7 @@ class myDataset(Dataset):
 		
 		
 
-d=myDataset('.\datasets\selqa-evaluater\SelQA-ass-train.json',y=1)
+d=myDataset('.\datasets\selqa-evaluater\SelQA-ass-train.json',y=0)
 print(len(d))
 print(len(d))
 print(len(d))
