@@ -2,6 +2,6 @@
 nlp based answer matching for faqs
 
 ## To Do:
-1. Create  the dataset class 
-2. Data loader
-3. create the cnn model
+1. test module with accuracy detection 
+2. notebook that runs on colab
+3. save and create file
