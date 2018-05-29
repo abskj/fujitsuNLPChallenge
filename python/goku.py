@@ -19,11 +19,19 @@ class selqa_net(nn.Module):
 		self.linear=torch.nn.Linear(2812,1)
 
 	def forward(self,x):
-
+		x.type(torch.FloatTensor)
+		x.unsqueeze_(1)
 		x=F.relu(self.conv1(x))
+		# print(x.shape)
 		x=self.pool1(x)
+		# print(x.shape)
 		x=self.dropout1(x)
+		# print(x.shape)
 		x=self.pool2(x)
+		# print(x.shape)
+		x=x.view(100,-1)
+		# print(x.shape)
 		x=self.linear(x)
+		x=x*10
 		return x
 

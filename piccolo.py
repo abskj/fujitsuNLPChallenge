@@ -36,7 +36,6 @@ class myDataset(Dataset):
 			if((index+no_of_ans)>idx) :
 				break
 			index+=no_of_ans
-		print(i)
 		if self.y :
 			if (idx-index) in obj["candidates"]:
 				label=1
