@@ -6,14 +6,14 @@ import json
 
 
 class myDataset(Dataset):
-	def __init__(self,filename,y=0):
+	def __init__(self,filename):
 		self.nlp=spacy.load("en_core_web_md")
 		self.filename=filename
 		self.length=0
 		with open(filename) as fp:
 			s=fp.read()
 		self.arr=s.split('\n')
-		self.y=y
+		self.y=1
 
 
 	def __len__(self):
@@ -39,9 +39,9 @@ class myDataset(Dataset):
 		print(i)
 		if self.y :
 			if (idx-index) in obj["candidates"]:
-				return 1
+				label=1
 			else:
-				return 0
+				label=0
 		question=self.nlp(obj["question"])
 		answer=self.nlp(obj["sentences"][idx-index])
 		list_of_tokens=[]
@@ -56,20 +56,4 @@ class myDataset(Dataset):
 			else:
 				list_of_tokens.append(torch.zeros(300).cuda(0))
 		sentence_to_embedding=torch.stack(list_of_tokens,dim=0)
-		return sentence_to_embedding
-		
-		
-
-d=myDataset('.\datasets\selqa-evaluater\SelQA-ass-train.json',y=0)
-print(len(d))
-print(len(d))
-print(len(d))
-print(len(d))
-print(len(d))
-print(len(d))
-print(d[50000])
-print(d[2000])
-print(d[20500])
-print(d[52000])
-for i in range(200):
-	print(d[i])
+		return sentence_to_embedding,torch.tensor(label)
