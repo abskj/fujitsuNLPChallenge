@@ -16,38 +16,55 @@ criterion=nn.MSELoss(size_average=True)
 model=selqa_net()
 model=model.cuda()
 optimizer=optim.Adam(model.parameters(),lr=learning_rate)
-# print(trainloader)
 
-for epoch in range(2):  # loop over the dataset multiple times
 
-    running_loss = 0.0
-    # for i,j  in enumerate(trainloader):
-    #     print(i,j)
-    # print(trainloader)
-    #print(enumerate(trainloader))
-    for i, data in enumerate(trainloader, 0):
-        # get the inputs
-        inputs, labels = data
-        inputs=inputs.cuda()
-        labels=labels.cuda()
-        labels=labels.type(torch.cuda.FloatTensor)
-        labels.unsqueeze_(1)
-        labels=labels*10
-        # zero the parameter gradients
-        optimizer.zero_grad()
+# for epoch in range(2):  # loop over the dataset multiple times
 
-        # forward + backward + optimize
-        outputs = model(inputs).cuda()
-        loss = criterion(outputs, labels).cuda()
-        loss.backward()
-        optimizer.step()
+#     running_loss = 0.0
+#     # for i,j  in enumerate(trainloader):
+#     #     print(i,j)
+#     # print(trainloader)
+#     #print(enumerate(trainloader))
+#     for i, data in enumerate(trainloader, 0):
+#         # get the inputs
+#         inputs, labels = data
+#         inputs=inputs.cuda()
+#         labels=labels.cuda()
+#         labels=labels.type(torch.cuda.FloatTensor)
+#         labels.unsqueeze_(1)
+#         labels=labels*10
+#         # zero the parameter gradients
+#         optimizer.zero_grad()
 
-        # print statistics
-        running_loss += loss.item()
-        # print(str(i)+" "+str(loss.item()))
-        if i % 5 == 1:    # print every 2000 mini-batches
-            print('[%d, %5d] loss: %.5f' %
-                (epoch + 1, i + 1, running_loss / 5))
-            running_loss = 0.0
+#         # forward + backward + optimize
+#         outputs = model(inputs).cuda()
+#         loss = criterion(outputs, labels).cuda()
+#         loss.backward()
+#         optimizer.step()
 
-print('Finished Training')
+#         # print statistics
+#         running_loss += loss.item()
+#         # print(str(i)+" "+str(loss.item()))
+#         if i % 5 == 1:    # print every 2000 mini-batches
+#             print('[%d, %5d] loss: %.5f' %
+#                 (epoch + 1, i + 1, running_loss / 5))
+#             running_loss = 0.0
+
+# print('Finished Training')
+
+#accuracy detection
+test_data=myDataset('.\datasets\selqa-evaluater\SelQA-ass-test.json')
+test_loader=utils.data.DataLoader(test_data,batch_size=100,shuffle=False,num_workers=0)
+total_correct=0
+for i,data in enumerate(test_loader,0):
+    inputs,labels=data
+    inputs=inputs.cuda()
+    labels=labels.cuda()
+    labels=labels.type(torch.cuda.FloatTensor)
+    labels.unsqueeze_(1)
+    outputs = model(inputs).cuda()
+    outputs=outputs.round()
+    c=labels==outputs
+    correct=torch.nonzero(c).size(0)
+    print('for batch '+str(i)+' accuracy is '+str(correct/100))
+print('Total accuracy is '+str(total_correct/len(test_data)))
