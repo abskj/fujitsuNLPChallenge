@@ -19,7 +19,7 @@ class selqa_net(nn.Module):
 		self.linear=torch.nn.Linear(2812,1)
 
 	def forward(self,x):
-		x.type(torch.FloatTensor)
+		x.type(torch.cuda.FloatTensor)
 		x.unsqueeze_(1)
 		x=F.relu(self.conv1(x))
 		# print(x.shape)

@@ -55,4 +55,5 @@ class myDataset(Dataset):
 			else:
 				list_of_tokens.append(torch.zeros(300).cuda(0))
 		sentence_to_embedding=torch.stack(list_of_tokens,dim=0)
-		return sentence_to_embedding,torch.tensor(label)
+		sentence_to_embedding.type(torch.cuda.FloatTensor)
+		return sentence_to_embedding,torch.tensor(label,dtype=torch.float, device=torch.device('cuda:0'))
